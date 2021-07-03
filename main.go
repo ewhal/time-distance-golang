@@ -12,36 +12,42 @@ import (
 
 func main() {
 
+	// make time.Time array
 	dates := make([]time.Time, 0)
 
+	// new scanner taking input from stdin
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
+		// print input text
 		fmt.Print("Enter date in format 01/01/2001 or 1/1/2001: ")
 
 		scanner.Scan()
 
+		// get text from stdin
 		text := scanner.Text()
 
+		// if not empty string call ParseTime
 		if len(text) != 0 {
 
+			// trim input string
 			trimmed := strings.Trim(text, "")
 			timeInput, err := parse.ParseTime(trimmed)
 			if err != nil {
 				fmt.Println(err)
 				break
 			}
-			fmt.Println(timeInput.String())
 			dates = append(dates, timeInput)
 		}
+		// once we have 2 dates call parse time
 		if len(dates) == 2 {
-			dateDifferent, err := parse.CalculateDayDifference(dates[0], dates[1])
+			dateDifference, err := parse.CalculateDayDifference(dates[0], dates[1])
 			if err != nil {
 				fmt.Println(err)
 				break
 
 			}
-			fmt.Println(dateDifferent)
+			fmt.Printf("The amount of days between %s and %s is %d \n", dates[0].String(), dates[1].String(), dateDifference)
 			break
 		}
 

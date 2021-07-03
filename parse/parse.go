@@ -17,7 +17,7 @@ var (
 		2999, time.December, 31, 0, 0, 0, 0, time.UTC).Add(time.Hour * 24)
 )
 
-// ParseTime
+// ParseTime Validates string and returns time.Time
 func ParseTime(input string) (time.Time, error) {
 	// validate input with regex
 	match, err := regexp.MatchString(`^[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{1,4}$`, input)
@@ -28,7 +28,6 @@ func ParseTime(input string) (time.Time, error) {
 		return time.Time{}, errors.New("invalid time format")
 		// return error
 	}
-	// clean up
 	inputArray := strings.Split(input, "/")
 	for location, dateStamp := range inputArray {
 		// lazy validation of string
@@ -54,29 +53,23 @@ func ParseTime(input string) (time.Time, error) {
 	return parsedDate, nil
 }
 
-// CalculateDayDifference
+// CalculateDayDifference Calculates the days difference between input 1 and input 2
+// returns int, error
 func CalculateDayDifference(input1 time.Time, input2 time.Time) (int, error) {
-	// fmt.Println(input1.String())
-	// fmt.Println(input2.String())
 	// input1 and input 2 are the sameday
 	if input1.Equal(input2) {
 		return 0, nil
 
-		// input1 is before input2
+		// input1 is after input2
 	} else if input1.After(input2) {
-		// day1 - day2 + 1
 		days := input1.Sub(input2).Hours() / 24
-		// fmt.Println(days)
 		return int(days) + 1, nil
 
-		// input1 is after input2
+		// input1 is before input2
 	} else if input1.Before(input2) {
 		days := input2.Sub(input1).Hours() / 24
-		// day2 - day1 - 1
-
-		// fmt.Println(days - 1)
 		return int(days) - 1, nil
 	} else {
-		return 0, errors.New("error else condition")
+		return 0, errors.New("error unhandled condition")
 	}
 }
