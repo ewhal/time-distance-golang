@@ -12,7 +12,7 @@ import (
 
 func main() {
 
-	// make time.Time array
+	// parsed input is put here
 	dates := make([]time.Time, 0)
 
 	// new scanner taking input from stdin
@@ -22,7 +22,9 @@ func main() {
 		// print input text
 		fmt.Print("Enter date in format 01/01/2001 or 1/1/2001: ")
 
-		scanner.Scan()
+		if !scanner.Scan() {
+			break
+		}
 
 		// get text from stdin
 		text := scanner.Text()
@@ -31,7 +33,7 @@ func main() {
 		if len(text) != 0 {
 
 			// trim input string
-			trimmed := strings.Trim(text, "")
+			trimmed := strings.TrimSpace(text)
 			timeInput, err := parse.ParseTime(trimmed)
 			if err != nil {
 				fmt.Println(err)
@@ -48,6 +50,10 @@ func main() {
 
 			}
 			fmt.Printf("The amount of days between %s and %s is %d \n", dates[0].String(), dates[1].String(), dateDifference)
+			break
+		}
+
+		if err := scanner.Err(); err != nil {
 			break
 		}
 
