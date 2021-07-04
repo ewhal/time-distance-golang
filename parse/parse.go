@@ -8,13 +8,15 @@ import (
 	"time"
 )
 
+// Define minimum and maximum allowed timestamps as
+// specified by pdf [Coding_test.pdf].
+// Valid date values are equal to or above MinDate and
+// equal to or below MaxDate
 var (
-	// MIN_DATE minimum allowable date value
-	MIN_DATE = time.Date(
-		1900, time.January, 01, 0, 0, 0, 0, time.UTC)
-	// MAX_DATE maximum allowable date value
-	MAX_DATE = time.Date(
-		2999, time.December, 31, 0, 0, 0, 0, time.UTC).Add(time.Hour * 24)
+	MinDate = time.Date(
+		1899, time.December, 31, 0, 0, 0, 0, time.UTC)
+
+	MaxDate = time.Date(3000, time.January, 1, 0, 0, 0, 0, time.UTC)
 )
 
 // ParseTime Validates string and returns time.Time
@@ -47,14 +49,14 @@ func ParseTime(input string) (time.Time, error) {
 		return time.Time{}, err
 	}
 	// validate date range
-	if !parsedDate.After(MIN_DATE) && !parsedDate.Before(MAX_DATE) {
+	if !parsedDate.After(MinDate) && parsedDate.Before(MaxDate) {
+
 		return time.Time{}, errors.New("error dates outside of acceptable range")
 	}
 	return parsedDate, nil
 }
 
 // CalculateDayDifference Calculates the days difference between input 1 and input 2
-// returns int, error
 func CalculateDayDifference(input1 time.Time, input2 time.Time) (int, error) {
 	// input1 and input 2 are the sameday
 	if input1.Equal(input2) {

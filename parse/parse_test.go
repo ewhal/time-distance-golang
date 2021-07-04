@@ -49,7 +49,7 @@ var TestDates []DateStruct = []DateStruct{
 		Input1: "01/01/1899",
 		Input2: "31/12/3000",
 		ExpectedResultParse1: time.Date(
-			1899, time.January, 01, 0, 0, 0, 0, time.UTC),
+			0001, time.January, 01, 0, 0, 0, 0, time.UTC),
 		ExpectedResultParse2: time.Date(
 			3000, time.December, 31, 0, 0, 0, 0, time.UTC),
 
